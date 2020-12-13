@@ -51,7 +51,6 @@ function esAdmin(req, res, next) {
 
         res.status(401).json({ error: "Acceso Restringido" });
 
-
     } else {
 
         const verificar = jwt.verify(token, firma)
@@ -60,7 +59,6 @@ function esAdmin(req, res, next) {
         else { res.status(401).json({ error: "Acceso Restringido" }); }
 
     }
-
 
 }
 

@@ -19,6 +19,7 @@ const getHtml = (contactos) => {
         <th scope="col">Email</th>
         <th scope="col">Telefono</th>
         <th scope="col">Pais</th>
+        <th scope="col">Region</th>
         <th scope="col">Compania</th>
         <th scope="col">Cargo</th>
         <th scope="col">Canal</th>
@@ -39,6 +40,7 @@ const getHtml = (contactos) => {
          <td>${contacto.email}</td>
          <td>${contacto.telefono}</td>
          <td>${contacto.pais}</td>
+         <td>${contacto.region}</td>
          <td>${contacto.compania}</td>
          <td>${contacto.cargo}</td>
          <td>`;
@@ -88,6 +90,7 @@ btnContactos.addEventListener('click', async (e) => {
       <input type="text" class="form-control col-4" id="apellidoBusqueda" placeholder="Apellido">
       <input type="text" class="form-control col-4" id="emailBusqueda" placeholder="Email">
       <input type="text" class="form-control col-4" id="paisBusqueda" placeholder="Pais">
+      <input type="text" class="form-control col-4" id="regionBusqueda" placeholder="Region">
       <input type="text" class="form-control col-4" id="companiaBusqueda" placeholder="Compania">
       <button type="submit" class="btn btn-primary" id="buscarContacto" onClick="buscarContactos(event)" >Buscar</button>
       <button type="reset" class="btn btn-danger" id="borrar" >Borrar</button>
@@ -155,6 +158,7 @@ async function buscarContactos (e){
         const apellido = document.querySelector('#apellidoBusqueda').value;
         const email = document.querySelector('#emailBusqueda').value;
         const pais = document.querySelector('#paisBusqueda').value;
+        const region = document.querySelector('#regionBusqueda').value;
         const compania = document.querySelector('#companiaBusqueda').value;
 
         const ext = '/v1/contactosFiltro/';
@@ -163,6 +167,7 @@ async function buscarContactos (e){
             "apellido": apellido,
             "email": email,
             "pais": pais,
+            "region": region,
             "compania": compania
         };
 
@@ -301,10 +306,7 @@ async function vistaEditarContacto (e){
 
                     o.selected = "selected";
 
-                }//else {
-                    
-                //     o.removeAttribute("selected")
-                // }
+                }
 
             })
 
@@ -315,10 +317,7 @@ async function vistaEditarContacto (e){
                     o.selected = "selected";
                     o.html = o.value;
 
-                }//else {
-                    
-                //     o.removeAttribute("selected")
-                // }
+                }
 
             })
             $('select[name=selValue]').val(1); $('.selectpicker').selectpicker('refresh');

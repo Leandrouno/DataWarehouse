@@ -2,7 +2,7 @@ const { sequelize } = require("../configuracion/configuracion.js");
 
 module.exports.mostrarContactos = async (objContacto) => {
 
-    let {id, email, nombre, apellido, pais, compania } = objContacto;
+    let {id, email, nombre, apellido, pais, region, compania } = objContacto;
 
     query = "SELECT * FROM contactos WHERE 1 = 1"
     if (id) {query += " AND id = :id";}
@@ -10,11 +10,12 @@ module.exports.mostrarContactos = async (objContacto) => {
     if (nombre) {query += " AND nombre LIKE :nombre";} 
     if (apellido) {query += " AND apellido LIKE :apellido";} 
     if (pais) {query += " AND pais LIKE :pais";} 
+    if (region) {query += " AND region LIKE :region";} 
     if (compania) {query += " AND compania LIKE :compania";} 
     
     const respuesta =
         sequelize.query(query, {
-            replacements: { id: id, email: email, nombre: `%${nombre}%`, apellido: `%${apellido}%`, pais: `%${pais}%`, compania: `%${compania}%`},
+            replacements: { id: id, email: email, nombre: `%${nombre}%`, apellido: `%${apellido}%`, pais: `%${pais}%`, region: `%${region}%`, compania: `%${compania}%`},
             type: sequelize.QueryTypes.SELECT
         });
 
@@ -63,15 +64,26 @@ module.exports.crearContacto = async (objContacto) => {
 
     if (nombre) {
 
-        query = "INSERT INTO contactos (nombre, apellido, email, telefono, pais, compania, cargo, canal_preferido) VALUES ( :nombre, :apellido, :email, :telefono, :pais, :compania, :cargo, :canal_preferido ) ";
-
+        query = "SELECT * FROM paises WHERE nombre LIKE :nombre";
+        
         const respuesta =
             sequelize.query(query, {
-                replacements: { nombre, apellido, email, telefono, pais, compania, cargo, canal_preferido},
+                replacements: { nombre: `%${pais}%`},
+                type: sequelize.QueryTypes.SELECT
+            });
+    
+        const resultado = await respuesta;
+        const region = await resultado[0].region;
+
+        query = "INSERT INTO contactos (nombre, apellido, email, telefono, pais, region, compania, cargo, canal_preferido) VALUES ( :nombre, :apellido, :email, :telefono, :pais, :region, :compania, :cargo, :canal_preferido ) ";
+
+        const respuesta2 =
+            sequelize.query(query, {
+                replacements: { nombre, apellido, email, telefono, pais, region, compania, cargo, canal_preferido},
                 type: sequelize.QueryTypes.INSERT
             });
 
-        return respuesta;
+         return respuesta2;
 
     }
 
@@ -80,18 +92,29 @@ module.exports.crearContacto = async (objContacto) => {
 module.exports.editarContacto = async (objContacto) => {
 
     const {id, nombre, apellido, email, telefono, pais, compania, cargo, canal_preferido } = objContacto;
-console.log(pais)
+
     if (id) {
 
-        query = "UPDATE contactos SET nombre = :nombre , apellido = :apellido, email  =:email, telefono = :telefono, pais = :pais, compania = :compania, cargo = :cargo, canal_preferido = :canal_preferido WHERE id = :id";
-
+        query = "SELECT * FROM paises WHERE nombre LIKE :nombre";
+        
         const respuesta =
             sequelize.query(query, {
-                replacements: {id, nombre, apellido, email, telefono, pais, compania, cargo, canal_preferido},
+                replacements: { nombre: `%${pais}%`},
+                type: sequelize.QueryTypes.SELECT
+            });
+    
+        const resultado = await respuesta;
+        const region = await resultado[0].region;
+
+        query = "UPDATE contactos SET nombre = :nombre , apellido = :apellido, email  =:email, telefono = :telefono, pais = :pais, region = :region, compania = :compania, cargo = :cargo, canal_preferido = :canal_preferido WHERE id = :id";
+
+        const respuesta2 =
+            sequelize.query(query, {
+                replacements: {id, nombre, apellido, email, telefono, pais, region, compania, cargo, canal_preferido},
                 type: sequelize.QueryTypes.UPDATE
             });
 
-        return respuesta;
+        return respuesta2;
 
     }
 
