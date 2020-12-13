@@ -47,7 +47,8 @@ localhost:3001/v1
 |--------|--------------------|-----------------------------|-------------------------------|--------------------------------------------------------|
 |  POST  | /login             |{usuario,contraseña}		    |                   		    | Devuelve el Token del Usuario                          |
 |   GET  | /usuarios          |                   		    |           {token }    		| Devuelve Informacion de todos los usuarios             |
-|   GET  | /usuarios          |{usuario}    				|           {token }    		| Devuelve informacion de un Usuario 					 |
+|  POST  | /usuariosFiltro    |{id || email || usuario ||   |           {token }    		| Devuelve informacion de un Usuario 					 |
+|        |                    | nombre || apellido}         |                               |                                                        |
 |  POST  | /usuarios          |{ usuario, nombre, apellido, |                   		    | Crea un Usuario                                        |
 |		 |					  |	email, contrasena, telefono,|                   		    |                                                        |
 |		 |					  | domicilio  }          		|                   		    |					                                     |
@@ -56,23 +57,19 @@ localhost:3001/v1
 |		 |					  | domicilio}          		|                   		    |                                                        |
 | DELETE | /usuarios          |{usuario}    				|           {token }    		| Elimina un usuario                    (Solo Admin)     |
 |--------|--------------------|-----------------------------|-------------------------------|--------------------------------------------------------|
-|   GET  | /productos         |                      	    |                        	    | Devuelve todos los productos                           |
-|   GET  | /productos         | {nombre}               	    |                   		    | Devuelve los productos que contengan la palabra buscada|
-|  POST  | /productos         |{ nombre, precio, imagen,    |           {token }    		| Crea un Producto                      (Solo Admin)     |
-|		 |					  |	descripcion}                |                   		    |                                                        |
-|  PUT   | /productos         |{ id, nombre, precio, imagen,|           {token }    		| Modifica un Producto                   (Solo Admin)    |
-|		 |					  |	descripcion}                |                   		    |                                                        |
-| DELETE | /productos         |{id}	                  	    |           {token }    		| Elimina un producto                   (Solo Admin)     |
+|   GET  | /contactos         |                      	    |           {token }       	    | Devuelve todos los contactos                           |
+|  POST  | /contactosFiltro   | {id || email || nombre ||   |           {token }            | Devuelve el Contacto con la Busqueda Filtrada          |
+|        |                    |apellido || pais || compania}|     	                        |                                                        |
+|  POST  | /contactos         |{ nombre, apellido, email,   |           {token }            |                                                        |
+|        |                    | telefono, pais, compania,   |                               |                                                        |
+|        |                    | cargo, canal_preferido }    |                        		| Crea un Contacto                                       |
+|		 |					  |                             |                   		    |                                                        |
+|  PUT   | /contactos         |{ id, nombre, apellido, email|           {token }            |  Modifica un Contacto                                  |
+|        |                    | telefono, pais, compania,   |                               |                                                        |
+|        |                    | cargo, canal_preferido }    |                        		|                                                        |
+|		 |					  |                             |                   		    |                                                        |
+| DELETE | /contactos         |{ id}                        |           {token }    		| Elimina un Contacto                                    |
 |--------|--------------------|-----------------------------|-------------------------------|--------------------------------------------------------|
-|  GET   | /pedidos           |                      	    |           {token }    		| Muestra pedidos (si es Admin muestra todos )		     |
-|  POST  | /pedidos      	  |{total, id_usuario,          |           {token }    		| Crea un Pedido                                         |
-|		 |					  | productos[                  |                   		    |                                                        |
-|		 |					  |{id_producto,cantidad,       |                   		    |                                                        |
-|		 |					  | nombre_producto,precio}]}   |                   		    |                                                        |
-|		 |				 	  |             				|                   		    |                                                        |
-|  PUT   | /pedidos			  |{ estado , id_pedido }       |           {token }    		| Permite editar el Estado del Pedido   (Solo Admin)     |
-| DELETE | /pedidos           |{id ,token}	        	    |           {token }    		| Elimina un pedido                     (Solo Admin)     |
+|   GET  | /paises            |                      	    |           {token }       	    | Devuelve todos los paises                              |
+|   POST | /paisesFiltro      | {nombre}              	    |           {token }       	    | Devuelve el resultado de paises Filtrado               |
 |--------|--------------------|-----------------------------|-------------------------------|--------------------------------------------------------|
-
-
-
