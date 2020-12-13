@@ -1,5 +1,5 @@
 const contactosServicios = require('../servicios/contactos.servicios.js');
-const { validarDatos, validarExistencia } = require('../middlewares/contactos.middleware.js');
+const { validarDatos, validarExistencia, validarId } = require('../middlewares/contactos.middleware.js');
 
 module.exports = (app) => {
 
@@ -31,6 +31,11 @@ module.exports = (app) => {
 
             if (consultaContactos.length > 0) { res.status(200).json(consultaContactos); }
 
+            else { res.status(404).json({
+                error: `No Hay datos para mostar`
+            }); }
+
+
 
         } catch (error) { res.status(500).json({ Error: error.message }); }
 
@@ -52,7 +57,7 @@ module.exports = (app) => {
 
     });
 
-    app.put("/v1/contactos/", validarDatos, async (req, res) => {
+    app.put("/v1/contactos/", validarId, async (req, res) => {
 
         console.log("peticion PUT a : /v1/contactos/ ");
 
@@ -68,7 +73,7 @@ module.exports = (app) => {
 
             if (editarContacto.length > 0) {
                 res.status(201).json({
-                    mensaje: `La Contacto con nombre : " ${req.body.nombre} " fue editada correctamente ! `
+                    mensaje: `El Contacto con nombre : " ${req.body.nombre} " fue editada correctamente ! `
                 });
             }
 

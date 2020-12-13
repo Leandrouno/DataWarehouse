@@ -21,7 +21,27 @@ module.exports = (app) => {
 
     });
 
-    app.post("/v1/usuarios/", validarDatos, validarExistencia, async (req, res) => {
+    app.post("/v1/usuariosFiltro/", async (req, res) => {
+
+        console.log("peticion POST a : /v1/usuariosFiltro/ ");
+
+        try {
+
+            const consultaUsuarios = await usuariosServicios.mostrarUsuarios(req.body);
+
+            if (consultaUsuarios.length > 0) { res.status(200).json(consultaUsuarios); }
+
+            else { res.status(404).json({
+                error: `No Hay datos para mostar`
+            }); }
+
+
+
+        } catch (error) { res.status(500).json({ Error: error.message }); }
+
+    });
+
+    app.post("/v1/usuarios/",esAdmin, validarDatos, validarExistencia, async (req, res) => {
 
         console.log("peticion POST a : /v1/usuarios/ ");
 
@@ -61,11 +81,13 @@ module.exports = (app) => {
 
     });
 
-    app.delete("/v1/usuarios/", esAdmin, async (req, res) => {
+    app.delete("/v1/usuarios/",esAdmin , async (req, res) => {
 
         console.log("peticion DELETE a : /v1/usuarios/ ");
 
         console.log("Validando Si existe el Usuario");
+
+        console.log(req.body)
 
         const consultaUsuario = await usuariosServicios.buscarUsuario(req.body);
 
@@ -109,7 +131,8 @@ module.exports = (app) => {
 
                 res.status(200).json({
                     mensaje: 'Autenticación correcta',
-                    token: token
+                    token: token,
+                    admin : usuBus[0].admin
                 });
 
             } else {

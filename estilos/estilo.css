@@ -25,4 +25,5 @@ body {
 
   #tablas{padding-top: 100px;}
 
-  .busquedaContacto{padding: 80px;}
+  .busquedaContacto,.busquedaUsuario{padding: 80px;}
+  .nuevoPaisContacto{width: 100%; height: 36px}

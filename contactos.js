@@ -2,6 +2,12 @@ const getHtml = (contactos) => {
 
     let html ="";
 
+    if(contactos.error){
+        
+        Swal.fire("Atencion", contactos.error , "error");
+
+    }
+
     if(contactos.length > 0){
 
     html = `<table class="table table-bordered table-hover dt-responsive tablas">
@@ -39,18 +45,20 @@ const getHtml = (contactos) => {
 
          arrayCanalPreferido.forEach(element => {
              
-            if (element=="Telefono"){html+=` <span class="badge badge-primary">${element}</span> `;}
-            else if (element=="Email"){html+=` <span class="badge badge-secondary">${element}</span> `;}
+            if (element=="Telefono"){html+=` <span class="badge badge-warning">${element}</span> `;}
+            else if (element=="Email"){html+=` <span class="badge badge-danger">${element}</span> `;}
             else if (element=="Whatsapp"){html+=` <span class="badge badge-success">${element}</span> `;}
-            else {html+=` <span class="badge badge-info">${element}</span> `;} 
+            else if (element=="Facebook"){html+=` <span class="badge badge-primary">${element}</span> `;}
+            else if (element=="Twitter"){html+=` <span class="badge badge-info">${element}</span> `;}
+            else {html+=` <span class="badge badge-secondary">${element}</span> `;} 
         
         });   
          
          html += `
          </td>
          <td>
-         <button type="button" class="btn btn-outline-warning btn-sm btnEditarContacto" idContacto="${contacto.id}" onClick="editarContacto(event)">Editar</button>
-         <button type="button" class="btn btn-outline-danger btn-sm btnEliminarcontacto" nombreContacto="${contacto.nombre + " " + contacto.apellido}" idContacto="${contacto.id}" onClick="eliminarContacto(event)" >Eliminar</button>
+         <button type="button" class="btn btn-outline-warning btn-sm btnEditarContacto" idContacto="${contacto.id}" onClick="vistaEditarContacto(event)">Editar</button>
+         <button type="button" class="btn btn-outline-danger btn-sm btnEliminarContacto" nombreContacto="${contacto.nombre + " " + contacto.apellido}" idContacto="${contacto.id}" onClick="eliminarContacto(event)" >Eliminar</button>
          </td>
        </tr>`     
 
@@ -61,13 +69,7 @@ const getHtml = (contactos) => {
      </tbody>
    </table>`;
 
-} else { 
-    
-    const div = document.createElement("div");
-    div.innerHTML = "No se Encontro Resultado";    
-    html.appendChild(div);
-
-}
+} 
 
     return html;
 
@@ -101,7 +103,45 @@ btnContactos.addEventListener('click', async (e) => {
     divTabla.classList.add("divTabla")
     contenidoMostrar.appendChild(divTabla);
 
+    const ext = '/v1/paises/';
+    const cuerpo = {};
+
+    const metodo = 'GET';
+
+    const paises = await fetcheo(url, ext, cuerpo, metodo);
+    const clase = ".selectNuevoPaisContacto";
+    const selector = document.querySelector(clase);
+
+    mostrarPaises(await paises, selector, clase);
+
+
 });
+
+function mostrarPaises(paises , selector ,clase){
+
+    if(clase === ".selectNuevoPaisContacto"){
+
+      select = "<select class='selectpicker nuevoPaisContacto' id='nuevoPaisContacto' data-live-search='true' title='Elija Pais...'>" ;
+      
+    } else{
+        
+        select = "<select class='selectpicker editarPaisContacto' id='editarPaisContacto' data-live-search='true' title='Elija Pais...'>" ;
+
+    }
+    
+
+    paises.forEach((pais)=>{
+        select += `<option value="${pais.nombre}">${pais.nombre}</option>`;
+    });
+
+    select += "</select>" 
+
+    selector.innerHTML =select;
+
+    $('#nuevoPaisContacto').html(select).selectpicker('refresh');
+    $('#editarPaisContacto').html(select).selectpicker('refresh');
+  };
+
 
 async function buscarContactos (e){
     const divTabla = document.querySelector(".divTabla");
@@ -154,7 +194,7 @@ btnCrearContacto.addEventListener('click', async (e) => {
     const apellido = document.querySelector('.nuevoApellidoContacto').value;
     const email = document.querySelector('.nuevoEmailContacto').value;
     const telefono = document.querySelector('.nuevoTelefonoContacto').value;
-    const pais = document.querySelector('.nuevoPaisContacto').value;
+    const pais = document.querySelector('#nuevoPaisContacto').value;
     const compania = document.querySelector('.nuevaCompaniaContacto').value;
     const cargo = document.querySelector('.nuevoCargoContacto').value;
     const canal = document.querySelectorAll('#nuevoCanalContacto option:checked');
@@ -185,12 +225,17 @@ btnCrearContacto.addEventListener('click', async (e) => {
             
             $('#nuevoContacto').on('hidden.bs.modal', function (e) {
                 $(this)
-                  .find("input,select")
+                  .find("input, select")
                      .val('')
                      .end();
               })
 
+              $("#nuevoPaisContacto").val('default');
+              $("#nuevoPaisContacto").selectpicker("refresh");
+              
+
               Swal.fire("Creado!", "Contacto Creado Correctamente.", "success");
+              document.querySelector(".divTabla").innerHTML ="";
 
         } else if (crearContacto.error) { alert(crearContacto.error); }
 
@@ -201,16 +246,19 @@ btnCrearContacto.addEventListener('click', async (e) => {
 
 });
 
-async function editarContacto (e){
+async function vistaEditarContacto (e){
 
     e.preventDefault();
 
     const idContacto = await e.target.attributes.idContacto.value;
 
-    //  Swal.fire("Editado!", "Va a Editar el contacto", "info");
-
     $('#editarContacto').modal('show');
-
+    $('#editarContacto').on('hidden.bs.modal', function (e) {
+        $(this)
+          .find("input,select")
+             .val('')
+             .end();
+      })
 
     try {
 
@@ -225,9 +273,20 @@ async function editarContacto (e){
 
         if (traerContacto) {
 
-            const canalesPreferidos = traerContacto[0].canal_preferido.split(",")
+            const ext = '/v1/paises/';
+            const cuerpo = {};
+        
+            const metodo = 'GET';
+        
+            const paises = await fetcheo(url, ext, cuerpo, metodo);
+            const clase = ".selectEditarPaisContacto";
+            const selector = document.querySelector(clase);
+        
+            mostrarPaises(await paises, selector, clase);
 
-            console.log(canalesPreferidos)
+            const canalesPreferidos = traerContacto[0].canal_preferido.split(",");
+            const paisSeleccionado = traerContacto[0].pais;
+
             document.querySelector('.editarIdContacto').value = traerContacto[0].id;
             document.querySelector('.editarNombreContacto').value = traerContacto[0].nombre;
             document.querySelector('.editarApellidoContacto').value = traerContacto[0].apellido;
@@ -242,14 +301,27 @@ async function editarContacto (e){
 
                     o.selected = "selected";
 
-                }else {
+                }//else {
                     
-                    o.removeAttribute("selected")
-                }
+                //     o.removeAttribute("selected")
+                // }
 
             })
 
+            document.querySelectorAll('.editarPaisContacto option').forEach( o => {
 
+                if(paisSeleccionado == o.value){
+
+                    o.selected = "selected";
+                    o.html = o.value;
+
+                }//else {
+                    
+                //     o.removeAttribute("selected")
+                // }
+
+            })
+            $('select[name=selValue]').val(1); $('.selectpicker').selectpicker('refresh');
         } else if (traerContacto.error) { alert(traerContacto.error); }
 
     }catch (err) {
@@ -259,14 +331,14 @@ async function editarContacto (e){
 };
 
 async function eliminarContacto (e){
-    const divTabla = document.querySelector(".divTabla");
+
     e.preventDefault();
     
     const idContacto = await e.target.attributes.idContacto.value;
     const nombreContacto = await e.target.attributes.nombreContacto.value;
 
     Swal.fire({
-        title: '¿Está segur@ de borrar el usuario?',
+        title: `¿Está segur@ de borrar a ${nombreContacto}?`,
         showDenyButton: true,
         showCancelButton: false,
         confirmButtonText: `Borrar`,
@@ -287,7 +359,7 @@ async function eliminarContacto (e){
             if (eliminarContacto.mensaje) {
 
                 Swal.fire("Eliminado!", "Contacto Eliminado Correctamente.", "success");
-                divTabla.innerHTML ="";
+                document.querySelector(".divTabla").innerHTML ="";
     
     
             } else if (crearContacto.error) { alert(crearContacto.error); }
@@ -302,3 +374,61 @@ async function eliminarContacto (e){
       })
 
 };
+
+btnEditarContacto.addEventListener('click', async (e) => {
+
+    e.preventDefault();
+
+    const id = document.querySelector('.editarIdContacto').value;
+    const nombre = document.querySelector('.editarNombreContacto').value;
+    const apellido = document.querySelector('.editarApellidoContacto').value;
+    const email = document.querySelector('.editarEmailContacto').value;
+    const telefono = document.querySelector('.editarTelefonoContacto').value;
+    const pais = document.querySelector('#editarPaisContacto').value;
+    const compania = document.querySelector('.editarCompaniaContacto').value;
+    const cargo = document.querySelector('.editarCargoContacto').value;
+    const canal = document.querySelectorAll('#editarCanalContacto option:checked');
+    const mapCanal  = Array.from(canal).map(el => el.value);
+    const valCanal = mapCanal.toString();  
+
+    try {
+
+        const ext = '/v1/contactos/';
+        const cuerpo = {
+            "id":id,
+            "nombre": nombre,
+            "apellido": apellido,
+            "email": email,
+            "telefono": telefono,
+            "pais": pais,
+            "compania":compania,
+            "cargo" : cargo,
+            "canal_preferido" : valCanal
+        };
+
+        const metodo = 'PUT';
+
+        let editarContacto = await fetcheo(url, ext, cuerpo, metodo);
+
+        if (editarContacto.mensaje) {
+
+            $('#editarContacto').modal('hide');
+            
+            $('#editarContacto').on('hidden.bs.modal', function (e) {
+                $(this)
+                  .find("input,select")
+                     .val('')
+                     .end();
+              })
+
+              Swal.fire("Editado!", "Contacto Editado Correctamente.", "success");
+              document.querySelector(".divTabla").innerHTML ="";
+
+        } else if (editarContacto.error) { alert(editarContacto.error); }
+
+    } catch (err) {
+        alert(err)
+    }
+
+
+});

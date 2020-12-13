@@ -5,9 +5,9 @@ function validarDatos(req, res, next) {
 
     console.log("Validando Datos Completos del Usuario");
 
-    const { usuario, nombre, apellido, email, contrasena, telefono, domicilio } = req.body;
+    const { usuario, nombre, apellido, email, contrasena } = req.body;
 
-    if (!usuario || !nombre || !apellido || !email || !contrasena || !telefono || !domicilio) {
+    if (!usuario || !nombre || !apellido || !email || !contrasena) {
 
         res.status(400).json({
             error: `Datos Incompletos !`
@@ -49,7 +49,7 @@ function esAdmin(req, res, next) {
 
     if (!token) {
 
-        res.status(401).json({ error: "Token Invalido" });
+        res.status(401).json({ error: "Acceso Restringido" });
 
 
     } else {
@@ -57,7 +57,7 @@ function esAdmin(req, res, next) {
         const verificar = jwt.verify(token, firma)
 
         if (verificar.admin == 1) { next(); }
-        else { res.status(401).json({ Error: "Token Invalido" }); }
+        else { res.status(401).json({ error: "Acceso Restringido" }); }
 
     }
 

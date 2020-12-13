@@ -1,5 +1,26 @@
 const { sequelize, firma } = require("../configuracion/configuracion.js");
 
+module.exports.mostrarUsuarios = async (objUsuario) => {
+
+    let {id, email, nombre, apellido, usuario} = objUsuario;
+
+    query = "SELECT * FROM usuarios WHERE 1 = 1"
+    if (id) {query += " AND id = :id";}
+    if (email) {query += " AND email = :email";} 
+    if (nombre) {query += " AND nombre LIKE :nombre";} 
+    if (apellido) {query += " AND apellido LIKE :apellido";} 
+    if (usuario) {query += " AND usuario LIKE :usuario";} 
+    
+    const respuesta =
+        sequelize.query(query, {
+            replacements: { id: id, email: email, nombre: `%${nombre}%`, apellido: `%${apellido}%`, usuario: `%${usuario}%`},
+            type: sequelize.QueryTypes.SELECT
+        });
+
+    return respuesta;
+
+}
+
 module.exports.buscarUsuario = async (objUsuario) => {
 
     if (objUsuario.usuario) {
@@ -41,15 +62,15 @@ module.exports.crearUsuario = async (objUsuario) => {
 
 module.exports.editarUsuario = async (objUsuario) => {
 
-    const { usuario, nombre, apellido, email, contrasena, telefono, domicilio, admin } = objUsuario;
+    const { usuario, nombre, apellido, email, contrasena, telefono, domicilio } = objUsuario;
 
     if (usuario) {
 
-        query = "UPDATE usuarios SET nombre = :nombre , apellido = :apellido, email = :email ,contrasena = :contrasena, telefono = :telefono, domicilio = :domicilio, admin = :admin WHERE usuario = :usuario";
+        query = "UPDATE usuarios SET nombre = :nombre , apellido = :apellido, email = :email ,contrasena = :contrasena, telefono = :telefono, domicilio = :domicilio WHERE usuario = :usuario";
 
         const respuesta =
             sequelize.query(query, {
-                replacements: { usuario, nombre, apellido, email, contrasena, telefono, domicilio, admin },
+                replacements: { usuario, nombre, apellido, email, contrasena, telefono, domicilio },
                 type: sequelize.QueryTypes.UPDATE
             });
 
@@ -62,15 +83,15 @@ module.exports.editarUsuario = async (objUsuario) => {
 
 module.exports.eliminarUsuario = async (objUsuario) => {
 
-    const usuario = objUsuario.usuario;
+    const id = objUsuario.id;
 
-    if (usuario) {
+    if (id) {
 
-        query = "DELETE FROM usuarios WHERE usuario = :usuario";
+        query = "DELETE FROM usuarios WHERE id = :id";
 
         const respuesta =
             sequelize.query(query, {
-                replacements: { usuario },
+                replacements: { id },
                 type: sequelize.QueryTypes.DELETE
             });
 

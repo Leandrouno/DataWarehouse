@@ -24,24 +24,24 @@ module.exports.mostrarContactos = async (objContacto) => {
 
 module.exports.buscarContacto = async (objContacto) => {
 
-    if (objContacto.email) {
-        query = "SELECT * FROM contactos WHERE email = :email";
+    if (objContacto.id) {
+        query = "SELECT * FROM contactos WHERE id = :id";
 
     const respuesta =
         sequelize.query(query, {
-            replacements: { email: objContacto.email },
+            replacements: { id: objContacto.id },
             type: sequelize.QueryTypes.SELECT
         });
 
     return respuesta;
     
-    } else if (objContacto.id) {
+    } else if (objContacto.email) {
 
-        query = "SELECT * FROM contactos WHERE id = :id";
+        query = "SELECT * FROM contactos WHERE email = :email";
 
         const respuesta =
             sequelize.query(query, {
-                replacements: { id: objContacto.id },
+                replacements: { email: objContacto.email },
                 type: sequelize.QueryTypes.SELECT
             });
     
@@ -57,6 +57,7 @@ module.exports.buscarContacto = async (objContacto) => {
 }
 
 module.exports.crearContacto = async (objContacto) => {
+
 
     const { nombre, apellido, email, telefono, pais, compania, cargo, canal_preferido } = objContacto;
 
@@ -79,14 +80,14 @@ module.exports.crearContacto = async (objContacto) => {
 module.exports.editarContacto = async (objContacto) => {
 
     const {id, nombre, apellido, email, telefono, pais, compania, cargo, canal_preferido } = objContacto;
-
+console.log(pais)
     if (id) {
 
-        query = "UPDATE contactos SET nombre = :nombre , apellido = :apellido, email  =:email, telefono = :telefono, pais = :pais, region = :region, compania = :compania, cargo = :cargo, canal_preferido = :canal_preferido, foto = :foto WHERE id = :id";
+        query = "UPDATE contactos SET nombre = :nombre , apellido = :apellido, email  =:email, telefono = :telefono, pais = :pais, compania = :compania, cargo = :cargo, canal_preferido = :canal_preferido WHERE id = :id";
 
         const respuesta =
             sequelize.query(query, {
-                replacements: {id, nombre, apellido, email, telefono, pais, region, compania, cargo, canal_preferido, foto},
+                replacements: {id, nombre, apellido, email, telefono, pais, compania, cargo, canal_preferido},
                 type: sequelize.QueryTypes.UPDATE
             });
 

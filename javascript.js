@@ -4,11 +4,14 @@ const btnSalir = document.querySelector('.btnSalir');
 const btnUsuarios = document.querySelector('.btnUsuarios');
 const btnContactos = document.querySelector('.btnContactos');
 const btnCompanias = document.querySelector('.btnCompanias');
-const btnRegion = document.querySelector('.btnRegion');
+const btnPais = document.querySelector('.btnPais');
 const contenidoMostrar = document.querySelector(".contenido_mostar");
 const btnBuscarContacto = document.querySelector(".btnBuscarContacto");
 const btnCrearContacto = document.querySelector(".btnCrearContacto");
 const btnEditarContacto = document.querySelector(".btnEditarContacto");
+const btnBuscarUsuario = document.querySelector(".btnBuscarUsuario");
+const btnCrearUsuario = document.querySelector(".btnCrearUsuario");
+const btnEditarUsuario = document.querySelector(".btnEditarUsuario");
 
 
 const url = 'http://127.0.0.1:3001';
@@ -16,14 +19,14 @@ const url = 'http://127.0.0.1:3001';
 const fetcheo = async (url, ext, cuerpo, metodo) => {
 
     if (metodo == "GET") {
-
+        const bearer = 'Bearer ' + JSON.parse(localStorage.getItem('Token'));
         const respuesta = await fetch(url + ext, {
             method: metodo,
             headers: {
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-            },
-            body: JSON.stringify(cuerpo)
+                'Access-Control-Allow-Origin': '*',
+                'Authorization': bearer
+            }
         });
 
         data = await respuesta.json();
@@ -31,11 +34,13 @@ const fetcheo = async (url, ext, cuerpo, metodo) => {
 
     } else {
 
+        const bearer = 'Bearer ' + JSON.parse(localStorage.getItem('Token'));	
         const respuesta = await fetch(url + ext, {
             method: metodo,
             headers: {
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
+                'Access-Control-Allow-Origin': '*',
+                'Authorization': bearer
             },
             body: JSON.stringify(cuerpo)
         });
@@ -75,6 +80,7 @@ btnLogin.addEventListener('click', async (e) => {
 
             localStorage.setItem("Token", JSON.stringify(ingreso.token));
             localStorage.setItem("Usuario", JSON.stringify(usuario));
+            localStorage.setItem("Admin", JSON.stringify(ingreso.admin));
 
             setTimeout(function () {
                 $('#login').modal('hide');
@@ -152,35 +158,11 @@ btnSalir.addEventListener('click', async (e) => {
     $(".btnTransferir").prop('disabled', true);
     $(".btnTransferencias").prop('disabled', true);
     $("#navbarResponsive ul li").hide();
-});
-
-
-
- 
-btnUsuarios.addEventListener('click', async (e) => {
-    e.preventDefault();
-
-    contenidoMostrar.innerHTML = '<div class="alert alert-success" role="alert">Listado de Usuarios</div>';
-
-});
-
-btnCompanias.addEventListener('click', async (e) => {
-    e.preventDefault();
-
-    contenidoMostrar.innerHTML = '<div class="alert alert-warning" role="alert">Listado de Companias</div>';
-
-});
-
-btnRegion.addEventListener('click', async (e) => {
-    e.preventDefault();
-
-    contenidoMostrar.innerHTML = '<div class="alert alert-secondary" role="alert">Listado de Paises</div>';
-
+    contenidoMostrar.innerHTML = "";
 });
 
 
 document.addEventListener("DOMContentLoaded", function (event) {
-
 
     if (localStorage.getItem("Token") !== null) {
 
@@ -193,6 +175,12 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
         $("#navbarResponsive ul li").hide();
         $('#login').modal('show');
+    }
+
+    if (localStorage.getItem("Admin") == false) {
+
+        $(".btnUsuarios").hide();
+
     }
 
 

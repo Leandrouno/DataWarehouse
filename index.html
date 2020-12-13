@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">   
     <link rel="stylesheet" href="estilos/estilo.css">
 
     <link rel="icon" type="image/ico" href="favicon.ico">
@@ -35,8 +35,7 @@
                     </li>
                     <li class="nav-item btnContactos"><a class="nav-link" href="#">Contactos</a></li>
                     <li class="nav-item btnUsuarios"><a class="nav-link" href="#">Usuarios</a></li>
-                    <li class="nav-item btnCompanias"><a class="nav-link" href="#">Companias</a></li>
-                    <li class="nav-item btnRegion"><a class="nav-link" href="#">Región/Ciudad </a></li>
+                    <li class="nav-item btnPais"><a class="nav-link" href="#">Paises</a></li>
                 </ul>
             </div>
         </div>
@@ -52,9 +51,6 @@
             <h1 class="display-4">Data Warehouse</h1>
             <p class="lead">Bienvenid@ a tu almacen de Datos</p>
             <hr class="my-4">
-
-            <button type="button" class="btn btn-info btnRegistro" data-toggle="modal"
-                data-target="#registro">Registro</button>
 
             <button type="button" class="btn btn-success btnIngreso" data-toggle="modal"
                 data-target="#login">Login</button>
@@ -188,6 +184,87 @@
         </div>
     </div>
 
+    <div class="modal fade" id="nuevoContacto" tabindex="-1" role="dialog" aria-labelledby="nuevoContacto"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-bottom-0">
+                <h5 class="modal-title" id="nuevoContacto">Nuevo Contacto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="input-group mb-2 mr-sm-2 lg-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">Nombre</div>
+                    </div>
+                    <input type="text" class="form-control nuevoNombreContacto" id="nuevoNombreContacto" placeholder="Nombre" required>
+                </div>
+
+                <div class="input-group mb-2 mr-sm-2 lg-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">Apellido</div>
+                    </div>
+                    <input type="text" class="form-control nuevoApellidoContacto" id="nuevoApellidoContacto" placeholder="Apellido" required>
+                </div>
+
+                <div class="input-group mb-2 mr-sm-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">Email</div>
+                    </div>
+                    <input type="email" class="form-control nuevoEmailContacto"  id="nuevoEmailContacto" placeholder="Email" required>
+                </div>
+
+                <div class="input-group mb-2 mr-sm-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">Telefono</div>
+                    </div>
+                    <input type="number" class="form-control nuevoTelefonoContacto" id="nuevoTelefonoContacto" placeholder="Telefono">
+                </div>
+
+                <div class="input-group mb-2 mr-sm-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">Pais</div>
+                    </div>
+                      <div class="selectNuevoPaisContacto"></div>                      
+                </div>
+
+                <div class="input-group mb-2 mr-sm-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">Compania</div>
+                    </div>
+                    <input type="text" class="form-control nuevaCompaniaContacto" id="nuevaCompaniaContacto" placeholder="Compania">
+                </div>
+
+                <div class="input-group mb-2 mr-sm-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">Cargo</div>
+                    </div>
+                    <input type="text" class="form-control nuevoCargoContacto" id="nuevoCargoContacto" placeholder="Cargo">
+                </div>
+
+                 <div class="input-group mb-2 mr-sm-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">Canal Preferido</div>
+                    </div>
+                      <select class="selectpicker nuevoCanalContacto" id="nuevoCanalContacto" multiple="multiple" title="Elija Canal Preferido...">
+                        <option value="Telefono">Telefono</option>
+                        <option value="Email">Email</option>
+                        <option value="Whatsapp">Whatsapp</option>
+                        <option value="Facebook">Facebook</option>
+                        <option value="Twitter">Twitter</option>
+                      </select>
+                </div>
+
+                <button type="button" class="btn btn-success btnCrearContacto">Crear Contacto</button>
+
+            </div>
+
+        </div>
+    </div>
+    </div>
     
     <div class="modal fade" id="editarContacto" tabindex="-1" role="dialog" aria-labelledby="editarContacto"
     aria-hidden="true">
@@ -241,7 +318,7 @@
                     <div class="input-group-prepend">
                         <div class="input-group-text">Pais</div>
                     </div>
-                    <input type="text" class="form-control editarPaisContacto" id="editarPaisContacto" placeholder="Pais">
+                      <div class="selectEditarPaisContacto"></div>                      
                 </div>
 
                 <div class="input-group mb-2 mr-sm-2">
@@ -262,7 +339,7 @@
                     <div class="input-group-prepend">
                         <div class="input-group-text">Canal Preferido</div>
                     </div>
-                      <select class="selectpicker editarCanalContacto" id="editarCanalContacto" multiple="multiple">
+                      <select class="selectpicker editarCanalContacto" id="editarCanalContacto" multiple="multiple" title="Elija Canal Preferido...">
                         <option id="Telefono" value="Telefono">Telefono</option>
                         <option id="Email" value="Email">Email</option>
                         <option id="Whatsapp" value="Whatsapp">Whatsapp</option>
@@ -279,109 +356,158 @@
     </div>
     </div>
 
+    <div class="modal fade" id="nuevoUsuario" tabindex="-1" role="dialog" aria-labelledby="nuevoUsuario"
+aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-content">
+        <div class="modal-header border-bottom-0">
+            <h5 class="modal-title" id="nuevoUsuario">Nuevo Usuario</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
 
-    <div class="modal fade" id="nuevoContacto" tabindex="-1" role="dialog" aria-labelledby="nuevoContacto"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header border-bottom-0">
-                <h5 class="modal-title" id="nuevoContacto">Nuevo Contacto</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+        <div class="modal-body">
+            <div class="input-group mb-2 mr-sm-2 lg-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Nombre</div>
+                </div>
+                <input type="text" class="form-control nuevoNombreUsuario" id="nuevoNombreUsuario" placeholder="Nombre" required>
             </div>
 
-            <div class="modal-body">
-                <div class="input-group mb-2 mr-sm-2 lg-2">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">Nombre</div>
-                    </div>
-                    <input type="text" class="form-control nuevoNombreContacto" id="nuevoNombreContacto" placeholder="Nombre" required>
+            <div class="input-group mb-2 mr-sm-2 lg-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Apellido</div>
                 </div>
-
-                <div class="input-group mb-2 mr-sm-2 lg-2">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">Apellido</div>
-                    </div>
-                    <input type="text" class="form-control nuevoApellidoContacto" id="nuevoApellidoContacto" placeholder="Apellido" required>
-                </div>
-
-                <div class="input-group mb-2 mr-sm-2">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">Email</div>
-                    </div>
-                    <input type="email" class="form-control nuevoEmailContacto"  id="nuevoEmailContacto" placeholder="Email" required>
-                </div>
-
-                <div class="input-group mb-2 mr-sm-2">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">Telefono</div>
-                    </div>
-                    <input type="number" class="form-control nuevoTelefonoContacto" id="nuevoTelefonoContacto" placeholder="Telefono">
-                </div>
-
-                <div class="input-group mb-2 mr-sm-2">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">Pais</div>
-                    </div>
-                    <input type="text" class="form-control nuevoPaisContacto" id="nuevoPaisContacto" placeholder="Pais">
-                </div>
-
-                <div class="input-group mb-2 mr-sm-2">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">Compania</div>
-                    </div>
-                    <input type="text" class="form-control nuevaCompaniaContacto" id="nuevaCompaniaContacto" placeholder="Compania">
-                </div>
-
-                <div class="input-group mb-2 mr-sm-2">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">Cargo</div>
-                    </div>
-                    <input type="text" class="form-control nuevoCargoContacto" id="nuevoCargoContacto" placeholder="Cargo">
-                </div>
-
-                 <div class="input-group mb-2 mr-sm-2">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">Canal Preferido</div>
-                    </div>
-                      <select class="selectpicker nuevoCanalContacto" id="nuevoCanalContacto" multiple="multiple">
-                        <option value="Telefono">Telefono</option>
-                        <option value="Email">Email</option>
-                        <option value="Whatsapp">Whatsapp</option>
-                        <option value="Facebook">Facebook</option>
-                        <option value="Twitter">Twitter</option>
-                      </select>
-                </div>
-
-                <button type="button" class="btn btn-success btnCrearContacto">Crear</button>
-
+                <input type="text" class="form-control nuevoApellidoUsuario" id="nuevoApellidoUsuario" placeholder="Apellido" required>
             </div>
+
+            <div class="input-group mb-2 mr-sm-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Usuario</div>
+                </div>
+                <input type="text" class="form-control nuevoUsuarioCrear" id="nuevoUsuarioCrear" placeholder="Usuario">
+            </div>
+
+            <div class="input-group mb-2 mr-sm-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Contraseña</div>
+                </div>
+                <input type="password" class="form-control nuevaContrasenaUsuario" id="nuevaContrasenaUsuario" placeholder="Contraseña">
+            </div>
+
+            <div class="input-group mb-2 mr-sm-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Email</div>
+                </div>
+                <input type="email" class="form-control nuevoEmailUsuario"  id="nuevoEmailUsuario" placeholder="Email" required>
+            </div>
+
+            <div class="input-group mb-2 mr-sm-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Telefono</div>
+                </div>
+                <input type="number" class="form-control nuevoTelefonoUsuario" id="nuevoTelefonoUsuario" placeholder="Telefono">
+            </div>
+
+
+
+            <div class="input-group mb-2 mr-sm-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Domicilio</div>
+                </div>
+                <input type="text" class="form-control nuevoDomicilioUsuario" id="nuevoDomicilioUsuario" placeholder="Domicilio">
+            </div>
+
+
+
+            <button type="button" class="btn btn-success btnCrearUsuario">Crear Usuario</button>
 
         </div>
+
     </div>
-    </div>
+</div>
+</div>
 
 
-    <div class="modal fade" id="eliminarContacto" tabindex="-1" role="dialog" aria-labelledby="eliminarContacto"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header border-bottom-0">
-                <h5 class="modal-title" id="eliminarContacto">Eliminar Contacto</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+<div class="modal fade" id="editarUsuario" tabindex="-1" role="dialog" aria-labelledby="editarUsuario"
+aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-content">
+        <div class="modal-header border-bottom-0">
+            <h5 class="modal-title" id="editarUsuario">Editar Usuario</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body">
+
+            <div class="input-group mb-2 mr-sm-2 lg-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">ID</div>
+                </div>
+                <input type="text" class="form-control editarIdUsuario" id="editarIdUsuario" placeholder="ID" readonly>
             </div>
 
-            <div class="modal-body">
-
-
+            <div class="input-group mb-2 mr-sm-2 lg-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Nombre</div>
+                </div>
+                <input type="text" class="form-control editarNombreUsuario" id="editarNombreUsuario" placeholder="Nombre" required>
             </div>
+
+            <div class="input-group mb-2 mr-sm-2 lg-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Apellido</div>
+                </div>
+                <input type="text" class="form-control editarApellidoUsuario" id="editarApellidoUsuario" placeholder="Apellido" required>
+            </div>
+
+            <div class="input-group mb-2 mr-sm-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Usuario</div>
+                </div>
+                <input type="text" class="form-control editarUsuarioModificar" id="editarUsuarioModificar" placeholder="Usuario" readonly>
+            </div>
+
+            <div class="input-group mb-2 mr-sm-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Contraseña</div>
+                </div>
+                <input type="password" class="form-control editarContrasenaUsuario" id="editarContrasenaUsuario" placeholder="Contraseña">
+            </div>
+
+            <div class="input-group mb-2 mr-sm-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Email</div>
+                </div>
+                <input type="email" class="form-control editarEmailUsuario"  id="editarEmailUsuario" placeholder="Email" required>
+            </div>
+
+            <div class="input-group mb-2 mr-sm-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Telefono</div>
+                </div>
+                <input type="number" class="form-control editarTelefonoUsuario" id="editarTelefonoUsuario" placeholder="Telefono">
+            </div>
+
+
+            <div class="input-group mb-2 mr-sm-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Domicilio</div>
+                </div>
+                <input type="text" class="form-control editarDomicilioUsuario" id="editarDomicilioUsuario" placeholder="Compania">
+            </div>
+
+            <button type="button" class="btn btn-warning btnEditarUsuario">Editar Usuario</button>
 
         </div>
+
     </div>
-    </div>
+</div>
+</div>
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -389,17 +515,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/js/brands.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/js/fontawesome.min.js"></script>    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.12.3/dist/sweetalert2.all.min.js"></script> -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script> -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    
-
 
     <script type="text/javascript" src="javascript.js"></script>
     <script type="text/javascript" src="contactos.js"></script>
-
-
+    <script type="text/javascript" src="usuarios.js"></script>
+    <script type="text/javascript" src="paises.js"></script>
+    
     <footer id="sticky-footer" class="py-4 bg-dark text-white-50">
         <div class="container text-center">
             <a href="https://leandrouno.com.ar/"> © Leandrouno 2020</a><br><br>

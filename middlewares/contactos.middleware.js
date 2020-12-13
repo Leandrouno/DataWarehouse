@@ -4,7 +4,7 @@ const { jwt, firma } = require("../configuracion/configuracion.js");
 
 function validarDatos(req, res, next) {
 
-    console.log("Validando Datos Completos de la Contacto");       
+    console.log("Validando Datos Completos del Contacto");       
 
     const { nombre, apellido, email} = req.body;
 
@@ -12,6 +12,26 @@ function validarDatos(req, res, next) {
 
         res.status(400).json({
             error: `Datos Incompletos ! al menos debe enviar Nombre, Apellido , Email`
+        });
+
+    } else {
+
+        next();
+
+    }
+
+}
+
+function validarId(req, res, next) {
+
+    console.log("Validando Si envia el ID del Contacto");       
+
+    const { id} = req.body;
+
+    if ( !id ) {
+
+        res.status(400).json({
+            error: `Datos Incompletos ! debe Enviar ID`
         });
 
     } else {
@@ -41,4 +61,4 @@ async function validarExistencia(req, res, next) {
 
 }
 
-module.exports = { validarDatos, validarExistencia};
+module.exports = { validarDatos, validarExistencia, validarId};
