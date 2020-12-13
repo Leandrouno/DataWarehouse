@@ -36,7 +36,21 @@ Abrir el archivo servidor.js desde VisualStudio y ejecutar en terminal :
 ## 6 - Podes ver Algunos endpoint para Postman desde el siguiente link:
 https://github.com/Leandrouno/delilah_resto/blob/main/Delilah.postman_collection.json
 
-## 7 Descargate el YAML
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌
+
+## 7 Ingreso al Sitio
+
+Para Ingresar Con Usuario Normal:
+
+Usuario: Acamica , Contraseña : 123
+
+Administrador :
+
+Usuario: Leandrouno , Contraseña :123
+📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌
+
 
 
 ## 8 ENDPOINT
